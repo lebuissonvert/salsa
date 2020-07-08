@@ -1,0 +1,177 @@
+<p-table #dt [columns]="cols" [value]="passes"
+          [paginator]="true" [rows]="5" [rowsPerPageOptions]="[5,10,15,20]"
+          [totalRecords]="totalRecords" [lazy]="true" (onLazyLoad)="loadDataLazy($event)"
+          pageLinks="5" [loading]="loading"
+          selectionMode="single" (onRowSelect)="onRowSelect($event)" [(selection)]="modalPasse"
+          class="mobilehidden hidelongtext">
+  <ng-template pTemplate="caption">
+    <div class="row">
+      <div class="col-md-6" style="text-align: left">
+        <button type="submit" (click)="ajouterPasse()" icon="pi pi-plus" pButton label="Ajouter une passe"></button>
+      </div>
+      <div class="col-md-6" style="text-align: right">
+        <i class="pi pi-search" style="margin:4px 4px 0 0"></i>
+        <input type="text" class="input-global-filter" pInputText size="50" placeholder="Filtre global" (input)="dt.filterGlobal($event.target.value, 'contains')">
+      </div>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="header" let-columns>
+    <tr>
+      <th *ngFor="let col of columns" [pSortableColumn]="col.field" class="hidelongtext">
+        {{col.header}}
+        <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+      </th>
+    </tr>
+    <tr>
+      <th *ngFor="let col of columns" [ngSwitch]="col.field">
+        <p-multiSelect *ngSwitchCase="'niveau.codeniveau'" [options]="niveauFilter" [filter]="false"
+                       maxSelectedLabels="2" defaultLabel="Filtre par niveau"
+                       (onChange)="dt.filter($event.value, col.field, 'in')"
+                       class="my-multiselect"></p-multiSelect>
+        <p-multiSelect *ngSwitchCase="'typepasse.codetypepasse'" [options]="typePasseFilter" [filter]="false"
+                       maxSelectedLabels="2" defaultLabel="Filtre par type"
+                       (onChange)="dt.filter($event.value, col.field, 'in')"
+                       class="my-multiselect"></p-multiSelect>
+        <input *ngSwitchCase="'nom'" class="input-filtre-nom" pInputText type="text" placeholder="Filtre par nom" (input)="dt.filter($event.target.value, col.field, 'contains')" >
+        <input *ngSwitchCase="'cavalier'" class="input-filtre-cavalier" pInputText type="text" placeholder="Filtre par note cavalier" (input)="dt.filter($event.target.value, col.field, 'contains')" >
+        <input *ngSwitchCase="'cavaliere'" class="input-filtre-cavaliere" pInputText type="text" placeholder="Filtre par note cavalière" (input)="dt.filter($event.target.value, col.field, 'contains')" >
+      </th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-passe let-columns="columns">
+    <tr [pSelectableRow]="passe">
+      <td *ngFor="let col of columns" class="hidelongtext">
+        {{passe|field:col}}
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
+
+<p-dialog [(visible)]="displayDialogEdition" modal="modal" [responsive]="true"
+          [style]="{'width':'37.5em', 'line-height': '1.6'}"
+          [closable]="false">
+  <p-header style="font-family: 'dirty_headlineregular',Arial, Sans-Serif; color: #000!important; font-size: 20px;">
+    {{titreDialog}}
+  </p-header>
+  <div class="form-group form-horizontal">
+    <div class="row">
+      <div class="col-md-4">
+        <label for="nom" class="align-middle">Nom de la passe : </label>
+      </div>
+      <div class="col-md-8">
+        <input type="text" [(ngModel)]="modalPasse.nom"
+               class="form-control"
+               id="nom"
+               name="nom"
+               placeholder="Nom de la passe"
+               [disabled]="isModeConsultation"
+               maxlength="255"
+               required>
+      </div>
+    </div>
+    <div class="row" [hidden]="modalPasse.nom && modalPasse.nom.length > 2" class="alert alert-danger">
+      Le nom de la passe doit être renseigné (au moins 3 caractères)
+    </div>
+    <div class="row">
+      <div class="col-md-4">
+        <label class="align-middle">Niveau de la passe :&nbsp;</label>
+      </div>
+      <div class="col-md-8">
+        <p-dropdown id="niveaupasse" name="niveaupasse"
+                    [options]="niveauxPasses" [(ngModel)]="modalPasse.niveau"
+                    optionLabel="codeniveau" placeholder="Choisissez le niveau"
+                    [disabled]="isModeConsultation"></p-dropdown>
+      </div>
+    </div>
+    <div class="row" [hidden]="modalPasse.niveau && modalPasse.niveau.codeniveau.length > 2"
+         class="alert alert-danger" style="text-align: center">
+      Le niveau de la passe doit être renseigné
+    </div>
+    <div class="row">
+      <div class="col-md-4">
+        <label class="align-middle">Type de la passe :&nbsp;</label>
+      </div>
+      <div class="col-md-8">
+        <p-dropdown id="typepasse" name="typepasse"
+                    [options]="typesPasses" [(ngModel)]="modalPasse.typepasse"
+                    optionLabel="codetypepasse" placeholder="Choisissez le type"
+                    [disabled]="isModeConsultation"></p-dropdown>
+      </div>
+    </div>
+    <div class="row" [hidden]="modalPasse.typepasse && modalPasse.typepasse.codetypepasse.length > 2"
+         class="alert alert-danger" style="text-align: center">
+      Le type de la passe doit être renseigné
+    </div>
+
+    <div *ngIf="isModeConsultation else isNotModeConsultation">
+      <div *ngIf="modalPasse.video && modalPasse.video.length > 0 else videoIsEmpty">
+        <div class="row">
+          <div class="col-md-4">
+            <label for="video">Vidéo : </label>
+          </div>
+          <div class="col-md-8">
+            <a href="{{modalPasse.video}}" target="_blank">Voir la vidéo de la passe</a>
+          </div>
+        </div>
+      </div>
+      <ng-template #videoIsEmpty>
+      </ng-template>
+    </div>
+    <ng-template #isNotModeConsultation>
+      <div class="row">
+        <div class="col-md-4">
+          <label for="video" class="align-middle">Vidéo : </label>
+        </div>
+        <div class="col-md-8">
+          <input type="text" [(ngModel)]="modalPasse.video"
+                 class="form-control"
+                 id="video"
+                 name="video"
+                 placeholder="Lien vidéo de la passe"
+                 maxlength="500">
+        </div>
+      </div>
+    </ng-template>
+
+    <div class="row">
+      <div class="col-sm">
+        <label for="cavalier">Notes du cavalier : </label>
+        <textarea pInputTextarea [(ngModel)]="modalPasse.cavalier"
+              class="form-control" [disabled]="isModeConsultation"
+              id="cavalier"
+              name="cavalier"
+              placeholder="Notes du cavalier"
+              minlength="3" maxlength="1000"
+              required #name="ngModel"
+              [rows]="5" [cols]="30" autoResize="autoResize">
+        </textarea>
+      </div>
+    </div>
+    <br>
+    <div class="row">
+      <div class="col-sm">
+        <label for="cavaliere">Notes de la cavalière : </label>
+        <textarea pInputTextarea [(ngModel)]="modalPasse.cavaliere"
+              class="form-control" [disabled]="isModeConsultation"
+              id="cavaliere"
+              name="cavaliere"
+              placeholder="Notes de la cavalière"
+              minlength="3" maxlength="1000"
+              required #name="ngModel"
+              [rows]="5" [cols]="30" autoResize="autoResize">
+        </textarea>
+      </div>
+    </div>
+  </div>
+  <p-footer>
+    <button type="button" (click)="showModeModification()"
+            icon="pi pi-pencil" style="float:left"
+            pButton label="Mode modification"
+            [hidden]="!isModeConsultation"></button>
+    <button type="submit" (click)="enregistrerPasse()" icon="pi pi-check" pButton label="Enregistrer"
+            [disabled]="!(modalPasse.nom && modalPasse.nom.length > 2 && modalPasse.niveau && modalPasse.niveau.codeniveau.length > 2 && modalPasse.typepasse && modalPasse.typepasse.codetypepasse.length > 2)"
+            [hidden]="isModeConsultation"  class="ui-button-success"></button>
+    <button type="button" (click)="hideDialog()" icon="pi pi-times" pButton label="Fermer"
+            class="ui-button-danger"></button>
+  </p-footer>
+</p-dialog>
