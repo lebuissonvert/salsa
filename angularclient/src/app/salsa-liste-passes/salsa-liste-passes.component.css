@@ -3,25 +3,45 @@
     src: url("/assets/fonts/dirtyheadline2-webfont.woff") format("woff");
 }
 
-/* En vue mobile, on cache les colones "notes cavalier" et "notes cavaliere"*/
-@media (max-width:1000px){
-  .mobilehidden tr td:nth-child(4)  {
+@media (min-width:1000px) {
+  .hideondesktop {
     display: none !important;
   }
-  .mobilehidden tr th:nth-child(4)  {
+}
+
+/* En vue mobile, adaptation du rendu du tableau*/
+@media (max-width:1000px){
+  .mobileview tr td:nth-child(1)  {
+    display: none !important;
+  }
+  .mobileview tr th:nth-child(1)  {
     display: none !important;
   }
 
-  .mobilehidden tr td:nth-child(5)  {
+  .mobileview tr td:nth-child(2)  {
+    width: 33% !important;
+  }
+  .mobileview tr th:nth-child(2)  {
+    width: 33% !important;
+  }
+
+  .mobileview tr td:nth-child(4)  {
     display: none !important;
   }
-  .mobilehidden tr th:nth-child(5)  {
+  .mobileview tr th:nth-child(4)  {
+    display: none !important;
+  }
+
+  .mobileview tr td:nth-child(5)  {
+    display: none !important;
+  }
+  .mobileview tr th:nth-child(5)  {
     display: none !important;
   }
 }
 
 .input-global-filter {
-  width: 50%;
+  width: 100%;
 }
 .input-filtre-nom {
   width: 100%;

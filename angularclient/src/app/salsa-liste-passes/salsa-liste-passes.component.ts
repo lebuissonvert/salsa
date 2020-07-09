@@ -34,6 +34,7 @@ export class SalsaListePassesComponent implements OnInit {
   typesPasses: TypePasse[];
   lastLazyLoadEvent: LazyLoadEvent;
   titreDialog: string;
+  selectedNiveau: Niveau;
 
   constructor(private passeService: PasseService, private niveauService: NiveauService,
               private typePasseService: TypePasseService) {

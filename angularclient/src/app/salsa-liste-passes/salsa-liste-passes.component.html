@@ -3,15 +3,23 @@
           [totalRecords]="totalRecords" [lazy]="true" (onLazyLoad)="loadDataLazy($event)"
           pageLinks="5" [loading]="loading"
           selectionMode="single" (onRowSelect)="onRowSelect($event)" [(selection)]="modalPasse"
-          class="mobilehidden hidelongtext">
+          class="mobileview hidelongtext">
   <ng-template pTemplate="caption">
     <div class="row">
-      <div class="col-md-6" style="text-align: left">
-        <button type="submit" (click)="ajouterPasse()" icon="pi pi-plus" pButton label="Ajouter une passe"></button>
+      <div class="col-4">
+        <button type="submit" (click)="ajouterPasse()" icon="pi pi-plus" pButton label="Ajouter"></button>
       </div>
-      <div class="col-md-6" style="text-align: right">
+      <div class="col-7">
         <i class="pi pi-search" style="margin:4px 4px 0 0"></i>
         <input type="text" class="input-global-filter" pInputText size="50" placeholder="Filtre global" (input)="dt.filterGlobal($event.target.value, 'contains')">
+      </div>
+    </div>
+    <div class="row hideondesktop">
+      <div class="col-md-3" style="margin-top: 8px;">
+        <p-multiSelect [(ngModel)]="selectedNiveau" [options]="niveauFilter" [filter]="false"
+                       maxSelectedLabels="2" defaultLabel="Filtre par niveau"
+                       (onChange)="dt.filter($event.value, 'niveau.codeniveau', 'in')"
+                       class="my-multiselect"></p-multiSelect>
       </div>
     </div>
   </ng-template>

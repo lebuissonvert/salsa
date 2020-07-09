@@ -16,7 +16,7 @@ import java.util.*;
 @org.springframework.web.bind.annotation.RestController
 @CrossOrigin(
         origins = "http://localhost:4200",
-        //origins = "http://romain33.ddns.net",
+        //origins = "http://passes-salsa.ddns.net",
         allowedHeaders = "*",
         allowCredentials = "true"
 )

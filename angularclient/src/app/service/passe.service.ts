@@ -18,7 +18,7 @@ export class PasseService {
 
   constructor(private http: HttpClient) {
     this.baseUrl = 'http://localhost:8080/';
-    //this.baseUrl = 'http://romain33.ddns.net:8080/';
+    //this.baseUrl = 'http://passes-salsa.ddns.net:8080/';
     this.wsShowAllPassePaginatedUrl = 'showAllPassePaginated';
     this.wsSavePasseUrl = 'savePasse';
     this.wsReadPasseUrl = 'readPasse';
