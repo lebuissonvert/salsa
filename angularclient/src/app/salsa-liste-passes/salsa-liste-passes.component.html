@@ -72,7 +72,7 @@
                id="nom"
                name="nom"
                placeholder="Nom de la passe"
-               [disabled]="isModeConsultation"
+               [readonly]="isModeConsultation"
                maxlength="255"
                required>
       </div>
@@ -114,11 +114,9 @@
     <div *ngIf="isModeConsultation else isNotModeConsultation">
       <div *ngIf="modalPasse.video && modalPasse.video.length > 0 else videoIsEmpty">
         <div class="row">
-          <div class="col-md-4">
-            <label for="video">Vidéo : </label>
-          </div>
           <div class="col-md-8">
-            <a href="{{modalPasse.video}}" target="_blank">Voir la vidéo de la passe</a>
+            <label for="video">Vidéo :&nbsp;</label>
+            <a href="{{modalPasse.video}}" target="_blank">Cliquer pour voir la vidéo de la passe</a>
           </div>
         </div>
       </div>
@@ -145,7 +143,7 @@
       <div class="col-sm">
         <label for="cavalier">Notes du cavalier : </label>
         <textarea pInputTextarea [(ngModel)]="modalPasse.cavalier"
-              class="form-control" [disabled]="isModeConsultation"
+              class="form-control" [readonly]="isModeConsultation"
               id="cavalier"
               name="cavalier"
               placeholder="Notes du cavalier"
@@ -160,7 +158,7 @@
       <div class="col-sm">
         <label for="cavaliere">Notes de la cavalière : </label>
         <textarea pInputTextarea [(ngModel)]="modalPasse.cavaliere"
-              class="form-control" [disabled]="isModeConsultation"
+              class="form-control" [readonly]="isModeConsultation"
               id="cavaliere"
               name="cavaliere"
               placeholder="Notes de la cavalière"
