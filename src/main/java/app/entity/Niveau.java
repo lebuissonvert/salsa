@@ -16,6 +16,13 @@ public class Niveau {
     @Column(name = "codeniveau", nullable = false)
     private String codeniveau;
 
+    public Niveau(){}
+
+    public Niveau(Integer p_idNiveau, String p_codeNiveau) {
+        this.idniveau = p_idNiveau;
+        this.codeniveau = p_codeNiveau;
+    }
+
     public Integer getIdniveau() {
         return idniveau;
     }

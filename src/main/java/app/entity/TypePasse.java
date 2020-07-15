@@ -9,6 +9,13 @@ import javax.persistence.*;
 @Table(name = "reftypepasse")
 public class TypePasse {
 
+    public TypePasse() {}
+
+    public TypePasse(Integer id, String code) {
+        this.idtypepasse = id;
+        this.codetypepasse = code;
+    }
+
     @Id
     @Column(name = "idtypepasse", columnDefinition = "integer")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
