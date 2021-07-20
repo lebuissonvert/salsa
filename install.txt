@@ -1,0 +1,35 @@
+creation projet angular dans le projet maven de springboot :
+	à la racine : ng new angular client
+création des objets engular :
+	ng generate class <classe>
+	ng generate service <service>
+	ng generate component <composant>
+
+primeng :
+	npm install primeng --save
+	npm install primeicons --save
+	npm install --save font-awesome angular-font-awesome
+	ng add @fortawesome/angular-fontawesome
+	npm install @angular/animations --save
+
+material :
+ng add @angular/material
+
+full calendar
+npm install @fullcalendar/core --save
+npm install @fullcalendar/daygrid --save
+npm install @fullcalendar/timegrid --save
+npm install @fullcalendar/interaction --save
+
+npm install bootstrap
+ajouter "@import '~bootstrap/dist/css/bootstrap.min.css'" dans styles.css
+
+
+Deploy:
+	SpringBoot : mvn clean install, récupérer le jar dans le repo maven
+	Angular	: ng build --prod
+		=> copier les fichier dans dist dans un repertoire du serveur web.
+		=> si on ne copie pas à la racine alors :
+			modifier dans index.html pour mettre le chemin relatif des scripts
+			modifier "main-es2015.*.js" pour ajouter le chemin relatif aux elements dans "asset" (par exemple les fonts)
+		
