@@ -1,5 +1,5 @@
 creation projet angular dans le projet maven de springboot :
-	à la racine : ng new angular client
+	à la racine : ng new angular-client
 création des objets engular :
 	ng generate class <classe>
 	ng generate service <service>
@@ -32,4 +32,7 @@ Deploy:
 		=> si on ne copie pas à la racine alors :
 			modifier dans index.html pour mettre le chemin relatif des scripts
 			modifier "main-es2015.*.js" pour ajouter le chemin relatif aux elements dans "asset" (par exemple les fonts)
-		
+
+Execution en local :
+    SpringBoot : faire un launcher "Application" avec comme class contenant le main : "SpringBootDataJpaApplication"
+    Angular : ng serve
