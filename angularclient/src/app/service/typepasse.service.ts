@@ -11,8 +11,8 @@ export class TypePasseService {
   private wsShowAllTypePasseUrl: string;
 
   constructor( private http: HttpClient) {
-    this.baseUrl = 'http://localhost:8080/';
-    //this.baseUrl = 'http://passes-salsa.ddns.net:8080/';
+    //this.baseUrl = 'http://localhost:8080/';
+    this.baseUrl = 'http://passes-salsa.ddns.net:8080/';
     this.wsShowAllTypePasseUrl = 'showAllTypePasse';
   }
 

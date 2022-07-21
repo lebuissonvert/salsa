@@ -7,11 +7,11 @@
   <ng-template pTemplate="caption">
     <div class="row">
       <div class="col-4">
-        <button type="submit" (click)="ajouterPasse()" icon="pi pi-plus" pButton label="Ajouter"></button>
+        <button type="submit" [hidden]="isEditionButtonHidden" (click)="ajouterPasse()" icon="pi pi-plus" pButton label="Ajouter"></button>
       </div>
       <div class="col-7">
         <i class="pi pi-search" style="margin:4px 4px 0 0"></i>
-        <input type="text" class="input-global-filter" pInputText size="50" placeholder="Filtre global" (input)="dt.filterGlobal($event.target.value, 'contains')">
+        <input type="text" class="input-global-filter" pInputText size="50" placeholder="Filtre global" (input)="dt.filterGlobal($event.target.value, 'contains')" (click)="unlockEditionButton()">
       </div>
     </div>
     <div class="row hideondesktop">
@@ -173,10 +173,10 @@
     <button type="button" (click)="showModeModification()"
             icon="pi pi-pencil" style="float:left"
             pButton label="Mode modification"
-            [hidden]="!isModeConsultation"></button>
+            [hidden]="!isModeConsultation || isEditionButtonHidden"></button>
     <button type="submit" (click)="enregistrerPasse()" icon="pi pi-check" pButton label="Enregistrer"
             [disabled]="!(modalPasse.nom && modalPasse.nom.length > 2 && modalPasse.niveau && modalPasse.niveau.codeniveau.length > 2 && modalPasse.typepasse && modalPasse.typepasse.codetypepasse.length > 2)"
-            [hidden]="isModeConsultation"  class="ui-button-success"></button>
+            [hidden]="isModeConsultation || isEditionButtonHidden"  class="ui-button-success"></button>
     <button type="button" (click)="hideDialog()" icon="pi pi-times" pButton label="Fermer"
             class="ui-button-danger"></button>
   </p-footer>

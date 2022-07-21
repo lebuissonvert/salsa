@@ -12,8 +12,8 @@ export class NiveauService {
   private wsShowAllNiveauUrl: string;
 
   constructor( private http: HttpClient) {
-    this.baseUrl = 'http://localhost:8080/';
-    //this.baseUrl = 'http://passes-salsa.ddns.net:8080/';
+    //this.baseUrl = 'http://localhost:8080/';
+    this.baseUrl = 'http://passes-salsa.ddns.net:8080/';
     this.wsShowAllNiveauUrl = 'showAllNiveau';
   }
 

@@ -28,6 +28,8 @@ export class SalsaListePassesComponent implements OnInit {
   modalPasse: Passe = new Passe();
   displayDialogEdition: boolean = false;
   isModeConsultation: boolean = false;
+  editionButtonCount: number = 0;
+  isEditionButtonHidden: boolean = true;
   niveauFilter: SelectItem[];
   niveauxPasses: Niveau[];
   typePasseFilter: SelectItem[];
@@ -106,6 +108,13 @@ export class SalsaListePassesComponent implements OnInit {
 
   showModeModification() {
     this.isModeConsultation = false;
+  }
+
+  unlockEditionButton() {
+    this.editionButtonCount++;
+    if(this.editionButtonCount > 20) {
+      this.isEditionButtonHidden = false;
+    }
   }
 
   showDialog(titre: string, isModeConsultation: boolean) {
